@@ -16,7 +16,7 @@ public class Main {
         janela.pack(); // Faz a janela usar as configurações predefinidas
         janela.setLocationRelativeTo(null); // Abre a janela no centro da tela do PC
         janela.setVisible(true); // Permite ver a janela na tela do PC
-
+        telaDeJogo.configGame();
         telaDeJogo.iniciaThreadJogo();
     }
 }

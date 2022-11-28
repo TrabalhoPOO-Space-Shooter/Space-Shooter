@@ -20,12 +20,21 @@ public class TelaDeJogo extends JPanel implements Runnable {
 
     final int fps = 60; // Frames por segundo que a tela será atualizada
 
-    Controle controle = new Controle();
+    Controle controle = new Controle(this);
     Thread threadJogo; // Atualiza a tela 60 vezes por segundo (60 fps)
     Jogador jogador = new Jogador(this, controle);
 
-    // Background
+    // Background image
     BgImage bgA = new BgImage(this);
+
+    // UI
+
+    public UI ui = new UI(this);
+
+    // Game State
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
 
     // Construtor
     public TelaDeJogo() {
@@ -35,6 +44,10 @@ public class TelaDeJogo extends JPanel implements Runnable {
         this.setDoubleBuffered(true); // Melhora a performance do render
         this.addKeyListener(controle); // Recebe a tecla pressionada
         this.setFocusable(true);
+    }
+
+    public void configGame(){
+        gameState = playState;
     }
 
     public void iniciaThreadJogo() {
@@ -74,7 +87,13 @@ public class TelaDeJogo extends JPanel implements Runnable {
     }
 
     public void update() { // Atualiza a informação
-        jogador.update(); // Atualiza a informação do jogador na tela
+        if(gameState == playState){
+            jogador.update(); // Atualiza a informação do jogador na tela
+        }
+        if(gameState == pauseState){
+             //Nothing
+        }
+
     }
 
     public void paintComponent(Graphics g) { // Pinta a tela (Subclasse de JPanel)
@@ -82,6 +101,7 @@ public class TelaDeJogo extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g; // Graphics2D é uma extensão da Graphics
         bgA.draw(g2); // Desenha o background
         jogador.draw(g2); // Atualiza o desenho do jogador na tela
+        ui.draw(g2);
         g2.dispose();
     }
 }

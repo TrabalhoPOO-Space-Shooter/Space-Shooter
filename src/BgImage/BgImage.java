@@ -28,7 +28,7 @@ public class BgImage {
 
     public void draw(Graphics2D g2)
     {
-        g2.drawImage(back.image,0,0, null);
+        g2.drawImage(back.image,0,0,null);
     }
 
 }
