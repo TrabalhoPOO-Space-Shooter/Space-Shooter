@@ -35,6 +35,7 @@ public class TelaDeJogo extends JPanel implements Runnable {
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int titleState = 0;
 
     // Construtor
     public TelaDeJogo() {
@@ -47,7 +48,7 @@ public class TelaDeJogo extends JPanel implements Runnable {
     }
 
     public void configGame(){
-        gameState = playState;
+        gameState = titleState;
     }
 
     public void iniciaThreadJogo() {
@@ -99,9 +100,16 @@ public class TelaDeJogo extends JPanel implements Runnable {
     public void paintComponent(Graphics g) { // Pinta a tela (Subclasse de JPanel)
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g; // Graphics2D é uma extensão da Graphics
-        bgA.draw(g2); // Desenha o background
-        jogador.draw(g2); // Atualiza o desenho do jogador na tela
-        ui.draw(g2);
-        g2.dispose();
+
+        // Tela inicial com as opções de new game, etc...
+        if(gameState == titleState){
+            ui.draw(g2);
+        }else{
+            bgA.draw(g2); // Desenha o background
+            jogador.draw(g2); // Atualiza o desenho do jogador na tela
+            ui.draw(g2);
+            g2.dispose();
+        }
+
     }
 }
