@@ -31,6 +31,9 @@ public class TelaDeJogo extends JPanel implements Runnable {
 
     public UI ui = new UI(this);
 
+    // Game Sound
+    Sound sound = new Sound();
+
     // Game State
     public int gameState;
     public final int playState = 1;
@@ -49,6 +52,7 @@ public class TelaDeJogo extends JPanel implements Runnable {
 
     public void configGame(){
         gameState = titleState;
+        playMusic(0); // Toca a música que está na pasta res/sound
     }
 
     public void iniciaThreadJogo() {
@@ -111,5 +115,20 @@ public class TelaDeJogo extends JPanel implements Runnable {
             g2.dispose();
         }
 
+    }
+
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic(){
+        sound.stop();
+    }
+
+    public void playSE(int i){
+        sound.setFile(i);
+        sound.play();
     }
 }
