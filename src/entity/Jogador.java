@@ -28,6 +28,8 @@ public class Jogador extends Entity {
     public void imagemJogador() {
         try {
             imagem = ImageIO.read(getClass().getResourceAsStream("/res/jogador/nave.png"));
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }

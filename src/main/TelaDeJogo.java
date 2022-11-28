@@ -1,5 +1,6 @@
 package main;
 
+import BgImage.BgImage;
 import entity.Jogador;
 
 import javax.swing.JPanel;
@@ -22,6 +23,9 @@ public class TelaDeJogo extends JPanel implements Runnable {
     Controle controle = new Controle();
     Thread threadJogo; // Atualiza a tela 60 vezes por segundo (60 fps)
     Jogador jogador = new Jogador(this, controle);
+
+    // Background
+    BgImage bgA = new BgImage(this);
 
     // Construtor
     public TelaDeJogo() {
@@ -75,8 +79,8 @@ public class TelaDeJogo extends JPanel implements Runnable {
 
     public void paintComponent(Graphics g) { // Pinta a tela (Subclasse de JPanel)
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D) g; // Graphics2D é uma extensão da Graphics
+        bgA.draw(g2); // Desenha o background
         jogador.draw(g2); // Atualiza o desenho do jogador na tela
         g2.dispose();
     }
