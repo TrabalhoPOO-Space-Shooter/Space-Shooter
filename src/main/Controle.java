@@ -6,7 +6,7 @@ import java.security.Key;
 
 public class Controle implements KeyListener { // Implementa a interface de controle
     TelaDeJogo tl;
-    public boolean cima, baixo, esquerda, direita;
+    public boolean cima, baixo, esquerda, direita, atirar;
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
@@ -45,6 +45,11 @@ public class Controle implements KeyListener { // Implementa a interface de cont
                     }
                 }
             }
+
+        // Atirar
+        if(code == KeyEvent.VK_F){
+            atirar = true;
+        }
         // ESTADO DO JOGO
             if (code == KeyEvent.VK_W) {
                 cima = true;
@@ -82,6 +87,9 @@ public class Controle implements KeyListener { // Implementa a interface de cont
         }
         if (code == KeyEvent.VK_D) {
             direita = false;
+        }
+        if(code == KeyEvent.VK_F){
+            atirar = false;
         }
     }
 }

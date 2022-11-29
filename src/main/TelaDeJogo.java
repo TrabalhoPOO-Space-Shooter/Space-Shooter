@@ -1,10 +1,13 @@
 package main;
 
 import BgImage.BgImage;
+import enemy.ENEMY_Spaceship;
+import entity.Entity;
 import entity.Jogador;
 
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class TelaDeJogo extends JPanel implements Runnable {
 
@@ -15,14 +18,25 @@ public class TelaDeJogo extends JPanel implements Runnable {
     public final int tamFinalQuadro = tamOriginalQuadro * escala; // Tamanho final dos quadros (48x48)
     final int tamMaxTelaCol = 16; // Tamanho máximo de colunas na tela
     final int tamMaxTelaLin = 12; // Tamanho máximo de linhas na tela
-    final int larguraTela = tamFinalQuadro * tamMaxTelaCol; // Largura da tela (768 pixels)
-    final int alturaTela = tamFinalQuadro * tamMaxTelaLin; // Altura da tela (576 pixels)
+    public final int larguraTela = tamFinalQuadro * tamMaxTelaCol; // Largura da tela (768 pixels)
+    public final int alturaTela = tamFinalQuadro * tamMaxTelaLin; // Altura da tela (576 pixels)
 
     final int fps = 60; // Frames por segundo que a tela será atualizada
 
     Controle controle = new Controle(this);
     Thread threadJogo; // Atualiza a tela 60 vezes por segundo (60 fps)
-    Jogador jogador = new Jogador(this, controle);
+    public Jogador jogador = new Jogador(this, controle);
+
+    // Collision checker
+
+    public CollisionChecker cChecker = new CollisionChecker(this);
+
+    // Set asset
+
+    AssetSetter aSetter = new AssetSetter(this);
+
+    // Enemy
+    public Entity enemy[] = new Entity[10];
 
     // Background image
     BgImage bgA = new BgImage(this);
@@ -40,6 +54,9 @@ public class TelaDeJogo extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int titleState = 0;
 
+    // ENTIDADE E OBJETOS
+    ArrayList<Entity> listaDeProjeteis = new ArrayList<>();
+
     // Construtor
     public TelaDeJogo() {
 
@@ -51,6 +68,7 @@ public class TelaDeJogo extends JPanel implements Runnable {
     }
 
     public void configGame(){
+        aSetter.setEnemy();
         gameState = titleState;
         playMusic(0); // Toca a música que está na pasta res/sound
     }
@@ -110,6 +128,12 @@ public class TelaDeJogo extends JPanel implements Runnable {
             ui.draw(g2);
         }else{
             bgA.draw(g2); // Desenha o background
+            // Enemy
+            for(int i=0; i < enemy.length; i++){
+                if(enemy[i] != null){
+                    enemy[i].draw(g2);
+                }
+            }
             jogador.draw(g2); // Atualiza o desenho do jogador na tela
             ui.draw(g2);
             g2.dispose();
