@@ -1,6 +1,6 @@
 package entity;
 
-import main.TelaDeJogo;
+import main.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -9,11 +9,11 @@ import java.io.IOException;
 
 public abstract class Entity {
     public int x, y;
-    public String direcao;
+    public String direction;
     public Rectangle areaSolida = new Rectangle(0,0,48,48);
 
-    TelaDeJogo tl;
-    public BufferedImage imagem;
+    GamePanel tl;
+    public BufferedImage image;
     public int areaSolidaPadraoX, areaSolidaPadraoY;
 
     public boolean collisionOn = false;
@@ -21,14 +21,14 @@ public abstract class Entity {
 
     // Atributos da nave
     public String nome;
-    public int velocidade;
+    public int speed;
     public int vidaMax;
     public int vida;
     public int ataque;
 
     public Projetil projetil;
 
-    public Entity(TelaDeJogo tl){
+    public Entity(GamePanel tl){
         this.tl = tl;
     }
 
@@ -47,16 +47,16 @@ public abstract class Entity {
     public void draw(Graphics2D g2){
         BufferedImage img = null;
         img = setup("/res/assetsTeste/ship_1");
-        int screenX = x - tl.jogador.x + tl.jogador.telaX;
-        int screenY = y - tl.jogador.x + tl.jogador.telaY;
-        if(x + tl.tamFinalQuadro > tl.jogador.x - tl.jogador.telaX &&
-           x - tl.tamFinalQuadro < tl.jogador.x + tl.jogador.telaX &&
-           y + tl.tamFinalQuadro > tl.jogador.y - tl.jogador.telaY &&
-           y - tl.tamFinalQuadro < tl.jogador.y + tl.jogador.telaY
+        int screenX = x - tl.player.x + tl.player.telaX;
+        int screenY = y - tl.player.x + tl.player.telaY;
+        if(x + tl.tileSize > tl.player.x - tl.player.telaX &&
+           x - tl.tileSize < tl.player.x + tl.player.telaX &&
+           y + tl.tileSize > tl.player.y - tl.player.telaY &&
+           y - tl.tileSize < tl.player.y + tl.player.telaY
         ){
 
         }
-        g2.drawImage(img,tl.tamFinalQuadro*13,tl.tamFinalQuadro*2, tl.tamFinalQuadro, tl.tamFinalQuadro, null);
+        g2.drawImage(img,tl.tileSize *13,tl.tileSize *2, tl.tileSize, tl.tileSize, null);
     }
 
 

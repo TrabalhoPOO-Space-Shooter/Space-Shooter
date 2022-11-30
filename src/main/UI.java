@@ -7,14 +7,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class UI {
-    TelaDeJogo tl;
+    GamePanel tl;
     public Font arial;
     public Font pixelated;
     public Font arialB;
     Graphics2D g2;
     public int comando = 0;
 
-    public UI(TelaDeJogo tl){
+    public UI(GamePanel tl){
         this.tl = tl;
         arial = new Font("Arial", Font.PLAIN,40);
         arialB = new Font("Arial",Font.BOLD,80);
@@ -52,13 +52,13 @@ public class UI {
     public void drawTitleScreen()
     {
         g2.setColor(new Color(0, 0, 0));
-        g2.fillRect(0,0,tl.larguraTela,tl.alturaTela);
+        g2.fillRect(0,0,tl.screenWidth,tl.screenHeight);
 
         // Nome do jogo
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
         String txt = "Space Shooter";
         int x = getXforCenteredText(txt);
-        int y = tl.tamFinalQuadro * 3;
+        int y = tl.tileSize * 3;
 
         // SOMBRAS NO TITULO DA TELA PRINCIPAL
         g2.setColor(Color.gray);
@@ -69,34 +69,34 @@ public class UI {
         g2.drawString(txt,x,y);
 
         // IMAGEM DA NAVE NA TELA PRINCIPAL
-        x = tl.larguraTela/2 - (tl.tamFinalQuadro*2)/2;
-        y += tl.tamFinalQuadro*2;
-        g2.drawImage(tl.jogador.imagem, x,y, tl.tamFinalQuadro*2, tl.tamFinalQuadro*2, null);
+        x = tl.screenWidth /2 - (tl.tileSize *2)/2;
+        y += tl.tileSize *2;
+        g2.drawImage(tl.player.image, x,y, tl.tileSize *2, tl.tileSize *2, null);
 
         // MENU DA TELA PRINCIPAL
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,42F));
         txt = "NOVO JOGO";
         x = getXforCenteredText(txt);
-        y+= tl.tamFinalQuadro * 3.5;
+        y+= tl.tileSize * 3.5;
         g2.drawString(txt,x,y);
         if(comando == 0){
-            g2.drawString(">",x - tl.tamFinalQuadro,y);
+            g2.drawString(">",x - tl.tileSize,y);
         }
 
         txt = "CARREGAR JOGO";
         x = getXforCenteredText(txt);
-        y+= tl.tamFinalQuadro + 3;
+        y+= tl.tileSize + 3;
         g2.drawString(txt,x,y);
         if(comando == 1){
-            g2.drawString(">",x - tl.tamFinalQuadro,y);
+            g2.drawString(">",x - tl.tileSize,y);
         }
 
         txt = "SAIR";
         x = getXforCenteredText(txt);
-        y+= tl.tamFinalQuadro + 3;
+        y+= tl.tileSize + 3;
         g2.drawString(txt,x,y);
         if(comando == 2){
-            g2.drawString(">",x - tl.tamFinalQuadro,y);
+            g2.drawString(">",x - tl.tileSize,y);
         }
 
     }
@@ -106,13 +106,13 @@ public class UI {
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN,80F));
         String text = "PAUSED";
         int x = getXforCenteredText(text);
-        int y = tl.alturaTela/2;
+        int y = tl.screenHeight /2;
         g2.drawString(text,x,y);
     }
 
     public int getXforCenteredText(String txt){
         int tam = (int)g2.getFontMetrics().getStringBounds(txt,g2).getWidth();
-        int x = tl.larguraTela / 2 - tam/2;
+        int x = tl.screenWidth / 2 - tam/2;
         return x;
     }
 }

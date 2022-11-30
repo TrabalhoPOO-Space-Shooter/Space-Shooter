@@ -4,9 +4,9 @@ import entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
 public class CollisionChecker {
-    TelaDeJogo tl;
+    GamePanel tl;
 
-    public CollisionChecker(TelaDeJogo tl){
+    public CollisionChecker(GamePanel tl){
         this.tl = tl;
     }
 
@@ -17,10 +17,10 @@ public class CollisionChecker {
         int entityTopY = entity.y + entity.areaSolida.y;
         int entityBottom = entity.y + entity.areaSolida.y + entity.areaSolida.height;
 
-        int entityLeftCol = entityLeftX/tl.tamFinalQuadro;
-        int entityRightCol = entityRightX/tl.tamFinalQuadro;
-        int entityTopRow = entityTopY/tl.tamFinalQuadro;
-        int entityBottomRow = entityBottom/tl.tamFinalQuadro;
+        int entityLeftCol = entityLeftX/tl.tileSize;
+        int entityRightCol = entityRightX/tl.tileSize;
+        int entityTopRow = entityTopY/tl.tileSize;
+        int entityBottomRow = entityBottom/tl.tileSize;
 
         int tileNum1,tileNum2;
     }

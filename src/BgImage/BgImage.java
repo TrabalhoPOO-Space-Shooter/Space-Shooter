@@ -1,17 +1,17 @@
 package BgImage;
 
-import main.TelaDeJogo;
+import main.GamePanel;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
 public class BgImage {
-    TelaDeJogo tl;
+    GamePanel tl;
     Imagem back;
     Imagem stars;
 
-    public BgImage(TelaDeJogo tl){
+    public BgImage(GamePanel tl){
         this.tl = tl;
         back = new Imagem();
         pegaBgImage();
@@ -32,8 +32,8 @@ public class BgImage {
 
     public void draw(Graphics2D g2)
     {
-        g2.drawImage(stars.image,0,0, tl.larguraTela, tl.alturaTela,null); // Coloca estrelas no background
-        g2.drawImage(back.image,0,0, tl.larguraTela, tl.alturaTela,null); // Altera o background para os planetas
+        g2.drawImage(stars.image,0,0, tl.screenWidth, tl.screenHeight,null); // Coloca estrelas no background
+        g2.drawImage(back.image,0,0, tl.screenWidth, tl.screenHeight,null); // Altera o background para os planetas
     }
 
 }

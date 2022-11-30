@@ -1,17 +1,17 @@
 package enemy;
 
 import entity.Entity;
-import main.TelaDeJogo;
+import main.GamePanel;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class ENEMY_Spaceship extends Entity {
     public BufferedImage enemy;
 
-    public ENEMY_Spaceship(TelaDeJogo tl){
+    public ENEMY_Spaceship(GamePanel tl){
         super(tl);
-        direcao = "down";
-        velocidade = 1;
+        direction = "down";
+        speed = 1;
         getEnemyImage();
     }
 
@@ -21,13 +21,13 @@ public class ENEMY_Spaceship extends Entity {
         Random rnd = new Random();
         int i = rnd.nextInt(100)+1;
         if(i <= 25){
-            direcao = "up";
+            direction = "up";
         }else if(i > 25 && i<=50){
-            direcao = "down";
+            direction = "down";
         }else if(i > 50 && i<=75){
-            direcao = "left";
+            direction = "left";
         }else if(i>75 && i<=100){
-            direcao = "right";
+            direction = "right";
         }
     }
 

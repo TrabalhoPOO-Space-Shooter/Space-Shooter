@@ -1,9 +1,9 @@
 package entity;
 
-import main.TelaDeJogo;
+import main.GamePanel;
 
 public class Projetil extends  Entity {
-    public Projetil(TelaDeJogo tl){
+    public Projetil(GamePanel tl){
         super(tl);
     }
 
