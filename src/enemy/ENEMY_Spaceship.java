@@ -2,37 +2,48 @@ package enemy;
 
 import entity.Entity;
 import main.GamePanel;
-import java.awt.image.BufferedImage;
-import java.util.Random;
+import org.jetbrains.annotations.NotNull;
+
+import java.awt.Graphics2D;
 
 public class ENEMY_Spaceship extends Entity {
-    public BufferedImage enemy;
 
-    public ENEMY_Spaceship(GamePanel tl){
+    int tamFixoX = 32;
+    int tamFixoY = 32;
+
+    public ENEMY_Spaceship(GamePanel tl, int iniX, int iniY, int direction){
         super(tl);
-        direction = "down";
-        speed = 1;
-        getEnemyImage();
+        speed = 2;
+        this.x = iniX;
+        this.y = iniY;
+        this.direction = direction;
+        image = setup("../res/assetsTeste/ship_1");
     }
 
-    @Override
-    public void setAction()  // Movimento da nave inimiga
-    {
-        Random rnd = new Random();
-        int i = rnd.nextInt(100)+1;
-        if(i <= 25){
-            direction = "up";
-        }else if(i > 25 && i<=50){
-            direction = "down";
-        }else if(i > 50 && i<=75){
-            direction = "left";
-        }else if(i>75 && i<=100){
-            direction = "right";
+    public void update(){
+        x += speed * direction;
+        if(x > 768){
+            x = 0;
         }
     }
 
-    public void getEnemyImage(){
-        enemy = setup("/res/assetsTeste/ship_3");
+    public int getX(){
+        return x;
+    }
+    public int getY(){return y;}
+
+    public int getTam(){
+        return 14; // tamanho do inimigo
+    }
+
+    public void swapDirection(){
+        direction = direction * - 1;
+        y+=25;
+        speed+= 0.55f;
+    }
+
+    public void draw(@NotNull Graphics2D g2){
+        g2.drawImage(image,x,y,tamFixoX,tamFixoY,null);
     }
 
 }

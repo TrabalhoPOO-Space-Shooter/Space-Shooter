@@ -9,6 +9,7 @@ import java.io.InputStream;
 public class UI {
     GamePanel tl;
     public Font arial;
+    private float closeIn = 10;
     public Font pixelated;
     public Font arialB;
     Graphics2D g2;
@@ -46,6 +47,14 @@ public class UI {
         if(tl.gameState == tl.pauseState) // PAUSA O JOGO
         {
             drawPauseScreen();
+        }
+
+        if(tl.gameState == tl.gameWin){
+            drawGameWinScreen();
+        }
+
+        if(tl.gameState == tl.gameOverState){
+            drawGameOverScreen();
         }
     }
 
@@ -99,6 +108,60 @@ public class UI {
             g2.drawString(">",x - tl.tileSize,y);
         }
 
+    }
+
+    public void drawGameWinScreen(){
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0,0,tl.screenWidth,tl.screenHeight);
+        int x;
+        int y;
+        String text;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
+        text = "Você ganhou!!!";
+        g2.setColor(Color.black);
+        x = getXforCenteredText(text);
+        y = tl.tileSize*4;
+        g2.drawString(text,x,y);
+        g2.setColor(Color.white);
+        g2.drawString(text,x-4,y-4);
+        // Fechando em
+        g2.setFont(g2.getFont().deriveFont(50f));
+        text = "Fechando em " + closeIn + " segundos";
+        x = getXforCenteredText(text);
+        y = tl.tileSize*4;
+        closeIn-= 0.016666f;
+        g2.drawString(text,x,y+100);
+        if(closeIn<=0){
+            System.exit(0);
+        }
+
+
+    }
+
+    public void drawGameOverScreen(){
+        g2.setColor(new Color(0,0,0,150));
+        g2.fillRect(0,0,tl.screenWidth,tl.screenHeight);
+        int x;
+        int y;
+        String text;
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,110f));
+        text = "Você perdeu!!!";
+        g2.setColor(Color.white);
+        x = getXforCenteredText(text);
+        y = tl.tileSize*4;
+        g2.drawString(text,x,y);
+        g2.setColor(Color.red);
+        g2.drawString(text,x-4,y-4);
+        // Fechando em
+        g2.setFont(g2.getFont().deriveFont(50f));
+        text = "Fechando em " + closeIn + " segundos";
+        x = getXforCenteredText(text);
+        y = tl.tileSize*4;
+        closeIn-= 0.016666f;
+        g2.drawString(text,x,y+100);
+        if(closeIn<=0){
+            System.exit(0);
+        }
     }
 
     public void drawPauseScreen()

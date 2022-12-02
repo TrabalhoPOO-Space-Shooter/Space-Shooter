@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public class BgImage {
     GamePanel tl;
+    private int y;
     Imagem back;
     Imagem stars;
 
@@ -15,7 +16,7 @@ public class BgImage {
         this.tl = tl;
         back = new Imagem();
         pegaBgImage();
-
+        y = 0;
     }
 
     public void pegaBgImage(){
@@ -32,8 +33,20 @@ public class BgImage {
 
     public void draw(Graphics2D g2)
     {
-        g2.drawImage(stars.image,0,0, tl.screenWidth, tl.screenHeight,null); // Coloca estrelas no background
-        g2.drawImage(back.image,0,0, tl.screenWidth, tl.screenHeight,null); // Altera o background para os planetas
+        // Fazer a troca ficar suave
+        g2.drawImage(stars.image,0,y - 576 * 2, tl.screenWidth, tl.screenHeight,null); // Coloca estrelas no background
+        g2.drawImage(back.image,0,y - 576 * 2, tl.screenWidth, tl.screenHeight,null); // Altera o background para os planetas
+
+        // Gambiarra
+        g2.drawImage(stars.image,0,y,tl.screenWidth,-tl.screenHeight,null);
+        g2.drawImage(back.image,0,y,tl.screenWidth,-tl.screenHeight,null);
+        // Fundo
+        g2.drawImage(stars.image,0,y, tl.screenWidth, tl.screenHeight,null); // Coloca estrelas no background
+        g2.drawImage(back.image,0,y, tl.screenWidth, tl.screenHeight,null); // Altera o background para os planetas
+        y+=3;
+        if(y > 576 * 2){
+            y=0;
+        }
     }
 
 }

@@ -1,16 +1,22 @@
 package entity;
 
+import enemy.ENEMY_Spaceship;
 import main.KeyHandler;
 import main.GamePanel;
 import object.OBJ_Laser;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Player extends Entity {
     GamePanel gp;
     KeyHandler keyHandler;
-
+    public boolean canShoot;
+    private int gameTime;
+    public ArrayList<Projetil> tiros;
+    public Projetil tiro;
     public final int telaX;
     public final int telaY;
 
@@ -29,13 +35,22 @@ public class Player extends Entity {
         areaSolidaPadraoY  = areaSolida.y;
         areaSolida.width = 32;
         areaSolida.height = 32;
+        projetil = new OBJ_Laser(gp);
         defineValorPadrao();
         imagemJogador();
     }
 
+    public Projetil shoot(){
+        canShoot = false;
+        tiro = new Projetil(tl,x+20,y-30);
+        return tiro;
+    }
+
     public void defineValorPadrao() {
-        x = 100;
-        y = 100;
+        tiros = new ArrayList<Projetil>();
+        x = 380;
+        y = 500;
+        gameTime = 0;
         speed = 4;
         vidaMax = 4;
         vida = vidaMax;
@@ -48,23 +63,24 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (keyHandler.upPressed) {
-            y -= speed;
-        } else if (keyHandler.downPressed) {
-            y += speed;
-        } else if (keyHandler.leftPressed) {
+        if (keyHandler.leftPressed) {
             x -= speed;
         } else if (keyHandler.rightPressed) {
             x += speed;
         }
-
-        // Collision checker
-
-        collisionOn = false;
-        tl.cChecker.checkTile(this);
+        // Atirar
+        if(gp.keyH.shootPressed == true && canShoot){
+            tiros.add(this.shoot());
+            canShoot = false;
+        }
+        if(gameTime >= 30){
+            canShoot = true;
+            gameTime = 0;
+        }
+        gameTime++;
     }
 
-    public void draw(Graphics2D g2) {
+    public void draw(@NotNull Graphics2D g2) {
         BufferedImage image = this.image;
         g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
     }

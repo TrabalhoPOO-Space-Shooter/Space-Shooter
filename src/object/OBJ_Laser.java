@@ -7,7 +7,7 @@ public class OBJ_Laser extends Projetil {
     GamePanel tl;
 
     public OBJ_Laser(GamePanel tl){
-        super(tl);
+        super(tl,30,30);
         this.tl = tl;
         nome = "Laser";
         speed = 5;

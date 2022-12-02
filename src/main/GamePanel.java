@@ -1,12 +1,16 @@
 package main;
 
 import BgImage.BgImage;
+import enemy.ENEMY_Spaceship;
 import entity.Entity;
+import entity.Explosions;
 import entity.Player;
+import entity.Projetil;
 
 import javax.swing.JPanel;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -22,20 +26,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     final int FPS = 60; // Frames por segundo que a tela será atualizada
 
-    KeyHandler keyH = new KeyHandler(this);
+    public KeyHandler keyH = new KeyHandler(this);
     Thread gameThread; // Atualiza a tela 60 vezes por segundo (60 fps)
     public Player player = new Player(this, keyH);
-
-    // Collision checker
-
-    public CollisionChecker cChecker = new CollisionChecker(this);
 
     // Set asset
 
     AssetSetter aSetter = new AssetSetter(this);
 
+    // Explosions
+    private ArrayList<Explosions> explosions;
+
     // Enemy
-    public Entity enemy[] = new Entity[10];
+    private ArrayList<ENEMY_Spaceship> enemy;
+
 
     // Background image
     BgImage bgA = new BgImage(this);
@@ -53,21 +57,28 @@ public class GamePanel extends JPanel implements Runnable {
     public final int pauseState = 2;
     public final int titleState = 0;
 
+    public final int gameWin = 4;
+
+    public final int gameOverState = 6;
+
     // ENTIDADE E OBJETOS
-    ArrayList<Entity> listaDeProjeteis = new ArrayList<>();
+    ArrayList<Entity> entityList = new ArrayList<>();
 
     // Construtor
     public GamePanel() {
-
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); // Põe as dimensões na tela
         this.setBackground(Color.black); // Põe uma cor de fundo na tela
         this.setDoubleBuffered(true); // Melhora a performance do render
         this.addKeyListener(keyH); // Recebe a tecla pressionada
         this.setFocusable(true);
+        enemy = new ArrayList<ENEMY_Spaceship>();
+        explosions = new ArrayList<Explosions>();
+        for(int i=0; i<60; i++){
+            enemy.add(new ENEMY_Spaceship(this,50 + i % 10 * 50,50 + i/10 * 50,1));
+        }
     }
 
     public void configGame(){
-        aSetter.setEnemy();
         gameState = titleState;
         playMusic(0); // Toca a música que está na pasta res/sound
     }
@@ -110,7 +121,60 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() { // Atualiza a informação
         if(gameState == playState){
             sound.play(); // Toca o som
+            // Jogador
             player.update(); // Atualiza a informação do jogador na tela
+
+            if(enemy.size() == 0){
+                gameState = gameWin;
+            }
+
+            // Atualiza o inimigo
+            for(int i=0; i<enemy.size(); i++) {
+                enemy.get(i).update();
+                if(enemy.get(i).getY() >= 576 - 120){
+                    gameState = gameOverState;
+                }
+            }
+
+            // Faz o inimigo mudar de direção quando bate na borda e aumenta a velocidade dos mesmos.
+
+            for(int i=0; i<enemy.size(); i++) {
+                if(enemy.get(i).getX() < 0 || enemy.get(i).getX() >= 768 - 50){
+                    for(int j=0; j<enemy.size(); j++) {
+                        enemy.get(j).swapDirection();
+                    }
+                    break;
+                }
+            }
+
+            for(int i=0; i<explosions.size(); i++) {
+                explosions.get(i).update();
+                if(explosions.get(i).explosionEnds()){
+                    explosions.remove(i);
+                }
+            }
+
+
+            // Atualiza os tiros
+            for(int i=0; i<player.tiros.size(); i++){
+                player.tiros.get(i).update();
+                if(player.tiros.get(i).destroy()) // Destroi os tiros que já passaram do tamanho da tela.
+                {
+                    player.tiros.remove(i);
+                    i--;
+                }else {
+                    for (int j = 0; j < enemy.size(); j++) {
+                        if (player.tiros.get(i).collideWith(enemy.get(j))) {
+                            explosions.add(new Explosions(this,enemy.get(j).getX(),enemy.get(j).getY()));
+
+                            enemy.remove(j);
+                            j--;
+                            //player.tiros.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }
         }
         if(gameState == pauseState){
              sound.stop(); // Para o som
@@ -127,12 +191,23 @@ public class GamePanel extends JPanel implements Runnable {
             ui.draw(g2);
         }else{
             bgA.draw(g2); // Desenha o background
-            // Enemy
-            for(int i=0; i < enemy.length; i++){
-                if(enemy[i] != null){
-                    enemy[i].draw(g2);
-                }
+
+            // Desenha as explosões
+            for(int i=0; i<explosions.size(); i++) {
+                explosions.get(i).draw(g2);
             }
+
+            // Desenha os tiros
+            for(int i=0; i<player.tiros.size(); i++){
+                player.tiros.get(i).draw(g2);
+            }
+
+            // Desenha o inimigo
+            for(int i=0; i<enemy.size(); i++) {
+                enemy.get(i).draw(g2);
+            }
+
+
             player.draw(g2); // Atualiza o desenho do jogador na tela
             ui.draw(g2);
             g2.dispose();
