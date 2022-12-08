@@ -10,7 +10,7 @@ import java.io.IOException;
 public abstract class Entity {
     public int x, y;
     public int direction;
-    public Rectangle areaSolida = new Rectangle(0,0,48,48);
+    public Rectangle areaSolida = new Rectangle(0, 0, 48, 48);
 
     GamePanel tl;
     public BufferedImage image;
@@ -27,36 +27,35 @@ public abstract class Entity {
     public int vidaMax;
     public int vida;
     public int ataque;
-
     public Projetil projetil;
 
-    public Entity(GamePanel tl){
+    public Entity(GamePanel tl) {
         this.tl = tl;
     }
 
 
-    public void setAction(){
+    public void setAction() {
 
     }
 
-    public void update(){
+    public void update() {
 
 
     }
 
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         BufferedImage img = null;
         img = image;
-        g2.drawImage(img,tl.tileSize *13,tl.tileSize *2, tl.tileSize, tl.tileSize, null);
+        g2.drawImage(img, tl.tileSize * 13, tl.tileSize * 2, tl.tileSize, tl.tileSize, null);
     }
 
 
-    public BufferedImage setup(String imagePath){
+    public BufferedImage setup(String imagePath) {
         BufferedImage img = null;
-        try{
+        try {
             img = ImageIO.read(getClass().getResourceAsStream(imagePath + ".png"));
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return img;

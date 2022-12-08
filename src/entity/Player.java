@@ -1,6 +1,5 @@
 package entity;
 
-import enemy.ENEMY_Spaceship;
 import main.KeyHandler;
 import main.GamePanel;
 import object.OBJ_Laser;
@@ -25,14 +24,14 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyHandler = keyHandler;
 
-        telaX = tl.screenWidth /2 - (tl.tileSize /2);
-        telaY = tl.screenHeight /2 - (tl.tileSize /2);
+        telaX = tl.screenWidth / 2 - (tl.tileSize / 2);
+        telaY = tl.screenHeight / 2 - (tl.tileSize / 2);
 
         areaSolida = new Rectangle();
         areaSolida.x = 8;
         areaSolida.y = 16;
         areaSolidaPadraoX = areaSolida.x;
-        areaSolidaPadraoY  = areaSolida.y;
+        areaSolidaPadraoY = areaSolida.y;
         areaSolida.width = 32;
         areaSolida.height = 32;
         projetil = new OBJ_Laser(gp);
@@ -40,9 +39,9 @@ public class Player extends Entity {
         imagemJogador();
     }
 
-    public Projetil shoot(){
+    public Projetil shoot() {
         canShoot = false;
-        tiro = new Projetil(tl,x+20,y-30);
+        tiro = new Projetil(tl, x + 20, y - 30);
         return tiro;
     }
 
@@ -58,7 +57,7 @@ public class Player extends Entity {
     }
 
     public void imagemJogador() {
-            image = setup("/res/assetsTeste/ship_2"); // Função da Entity class, para alterar imagem do jogador
+        image = setup("/res/assetsTeste/ship_2"); // Função da Entity class, para alterar imagem do jogador
 
     }
 
@@ -69,11 +68,11 @@ public class Player extends Entity {
             x += speed;
         }
         // Atirar
-        if(gp.keyH.shootPressed == true && canShoot){
+        if (gp.keyH.shootPressed && canShoot) {
             tiros.add(this.shoot());
             canShoot = false;
         }
-        if(gameTime >= 30){
+        if (gameTime >= 30) {
             canShoot = true;
             gameTime = 0;
         }

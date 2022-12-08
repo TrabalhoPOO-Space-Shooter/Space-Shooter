@@ -9,29 +9,29 @@ public class Sound {
     Clip clip;
     URL soundURL[] = new URL[30];
 
-    public Sound(){
-       soundURL[0] = getClass().getResource("../res/sound/BitRush.wav");
+    public Sound() {
+        soundURL[0] = getClass().getResource("../res/sound/BitRush.wav");
     }
 
-    public void setFile(int i){
-        try{
+    public void setFile(int i) {
+        try {
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
             clip.open(ais);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new Error(e);
         }
     }
 
-    public void play(){
+    public void play() {
         clip.start();
     }
 
-    public void loop(){
+    public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
-    public void stop(){
+    public void stop() {
         clip.stop();
     }
 }

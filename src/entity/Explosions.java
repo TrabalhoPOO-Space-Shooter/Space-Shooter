@@ -7,9 +7,10 @@ import java.awt.Graphics2D;
 
 public class Explosions extends Entity {
     private int animationTot;
-    private int line,col;
+    private int line, col;
     public int duration;
-    public Explosions(GamePanel tl, int x, int y){
+
+    public Explosions(GamePanel tl, int x, int y) {
         super(tl);
         image = setup("../res/assetsTeste/explosion");
         this.x = x;
@@ -20,22 +21,22 @@ public class Explosions extends Entity {
         col = 0;
     }
 
-    public void update(){
+    public void update() {
 
         duration--;
         line = duration / 6;
         col = duration % 5;
     }
 
-    public boolean explosionEnds(){
-        if(duration >= animationTot){
+    public boolean explosionEnds() {
+        if (duration >= animationTot) {
             return true;
         }
         return false;
     }
 
-    public void draw(@NotNull Graphics2D g2){
+    public void draw(@NotNull Graphics2D g2) {
 
-        g2.drawImage(image,x,y,x +50, y+50,192 * col,192 * line,192 * col + 192,192 * line + 192,null);
+        g2.drawImage(image, x, y, x + 50, y + 50, 192 * col, 192 * line, 192 * col + 192, 192 * line + 192, null);
     }
 }
