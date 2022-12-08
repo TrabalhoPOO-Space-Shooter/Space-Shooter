@@ -11,7 +11,7 @@ public class ENEMY_Spaceship extends Entity {
     int tamFixoX = 32;
     int tamFixoY = 32;
 
-    public ENEMY_Spaceship(GamePanel tl, int iniX, int iniY, int direction){
+    public ENEMY_Spaceship(GamePanel tl, int iniX, int iniY, int direction) {
         super(tl);
         speed = 2;
         this.x = iniX;
@@ -20,30 +20,33 @@ public class ENEMY_Spaceship extends Entity {
         image = setup("../res/assetsTeste/ship_1");
     }
 
-    public void update(){
+    public void update() {
         x += speed * direction;
-        if(x > 768){
+        if (x > 768) {
             x = 0;
         }
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
-    public int getY(){return y;}
 
-    public int getTam(){
+    public int getY() {
+        return y;
+    }
+
+    public int getTam() {
         return 14; // tamanho do inimigo
     }
 
-    public void swapDirection(){
-        direction = direction * - 1;
-        y+=25;
-        speed+= 0.55f;
+    public void swapDirection() {
+        direction = direction * -1;
+        y += 25;
+        speed += 0.55f;
     }
 
-    public void draw(@NotNull Graphics2D g2){
-        g2.drawImage(image,x,y,tamFixoX,tamFixoY,null);
+    public void draw(@NotNull Graphics2D g2) {
+        g2.drawImage(image, x, y, tamFixoX, tamFixoY, null);
     }
 
 }
