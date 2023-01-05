@@ -1,7 +1,7 @@
 # Space-Shooter
 
 ## Como jogar o Space Shooter?
-- Movimentação: A,D. // Removido as teclas W,S
+- Movimentação: A,D.
 - Pausar o jogo: ESC
 - Despausar o jogo: ESC
 - Atirar: F
